@@ -39,13 +39,17 @@ class _HomePageState extends State<HomePage> {
                 style: kBodyTitleStyle,
               ),
               SizedBox(height: 20.0),
-              Container(width: double.infinity, height: 160.0, color: Colors.blueAccent,),
+              Container( //add horizontal list view here
+                width: double.infinity,
+                height: 160.0,
+                color: Colors.blueAccent,
+              ),
               SizedBox(height: 30.0),
               Text(
                 'Popular Titles:',
                 style: kBodyTitleStyle,
               ),
-              Container(
+              Container( // add vertical list view/grid view
                 color: Colors.blueAccent,
                 width: double.infinity,
                 height: 350.0,
