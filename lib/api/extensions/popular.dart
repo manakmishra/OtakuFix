@@ -11,5 +11,6 @@ Future<List<Popular>> fetchPopulars(List<Element> elements) async {
         name: slideCaption.attributes['title']);
     populars.add(p);
   });
+
   return populars;
 }

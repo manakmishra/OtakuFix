@@ -18,6 +18,11 @@ class MyApp extends StatelessWidget {
         backgroundColor: kBackgroundColor,
         scaffoldBackgroundColor: kBackgroundColor,
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        cardTheme: CardTheme(
+          shape: RoundedRectangleBorder(
+            borderRadius: const BorderRadius.all(Radius.circular(15.0)),
+          )
+        ),
       ),
       home: Splash(),
     );
