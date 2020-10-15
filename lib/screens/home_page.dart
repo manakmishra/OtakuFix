@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:otaku_fix/api/main_api.dart';
 import 'package:otaku_fix/constants/colours.dart';
@@ -46,7 +45,7 @@ class _HomePageState extends State<HomePage> {
                 SliverHeadingText(text: 'Currently Reading:'),
                 SliverToBoxAdapter(
                   child: Container(
-                    height: 180.0,
+                    height: 200.0,
                     child: Stack(
                       children: <Widget>[
                         Positioned.fill(
@@ -69,20 +68,23 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 SliverHeadingText(text: 'Popular Titles:'),
-                SliverGrid(
-                    delegate: SliverChildBuilderDelegate(
-                        (BuildContext context, int index) {
-                          return MangaCard(
-                            manga: appData.populars[index],
-                          );
-                        },
-                      childCount: appData.populars.length,
-                    ),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 1,
-                      childAspectRatio: 225/320
-                    ),
+                SliverPadding(
+                  padding: const EdgeInsets.symmetric(horizontal: 17.5),
+                  sliver: SliverGrid(
+                      delegate: SliverChildBuilderDelegate(
+                          (BuildContext context, int index) {
+                            return MangaCard(
+                              manga: appData.populars[index],
+                            );
+                          },
+                        childCount: appData.populars.length,
+                      ),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 1,
+                        childAspectRatio: 225/320
+                      ),
+                  ),
                 ),
               ],
             );

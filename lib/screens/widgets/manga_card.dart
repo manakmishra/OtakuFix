@@ -20,7 +20,8 @@ class MangaCard extends StatelessWidget {
       onTap: () {},
       child: Padding(
           padding: EdgeInsets.only(left: 5.0, right: 5.0, bottom: 10.0),
-          child: Card(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(15.0),
             child: Image.network(
                 manga.img
             ),
