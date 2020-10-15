@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'OtakuFix',
       debugShowCheckedModeBanner: false,
-      theme: Theme.of(context).copyWith(
+      theme: ThemeData.dark().copyWith(
         brightness: Brightness.dark,
         primaryColor: kPrimaryColor,
         accentColor: kAccentColor,

@@ -6,13 +6,13 @@ import 'package:otaku_fix/screens/preferences_screen.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 // ignore: must_be_immutable
-class MainApp extends StatefulWidget {
+class MyApp extends StatefulWidget {
 
   @override
-  _MainAppState createState() => _MainAppState();
+  _MyAppState createState() => _MyAppState();
 }
 
-class _MainAppState extends State<MainApp> {
+class _MyAppState extends State<MyApp> {
   PersistentTabController _controller = PersistentTabController(initialIndex: 0);
 
   @override

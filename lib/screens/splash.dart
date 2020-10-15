@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:otaku_fix/constants/colours.dart';
 import 'package:otaku_fix/constants/text_styles.dart';
-import 'package:otaku_fix/main_app.dart';
+import 'package:otaku_fix/my_app.dart';
 
 class Splash extends StatefulWidget {
   @override
@@ -14,7 +14,7 @@ class _SplashState extends State<Splash> {
   void initState() {
     Future.delayed(Duration(seconds: 3), () {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (_) => MainApp()));
+          context, MaterialPageRoute(builder: (_) => MyApp()));
     });
     Future.delayed(Duration(milliseconds: 500), () {
       setState(() {

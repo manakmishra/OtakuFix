@@ -10,18 +10,6 @@ class PreferencesScreen extends StatelessWidget {
         backgroundColor: kBackgroundColor,
         elevation: 0,
         title: Text('OtakuFix', style: kAppbarTitleStyle),
-        actions: <Widget>[
-          FlatButton(
-            padding: EdgeInsets.all(0),
-            minWidth: 32,
-            onPressed: () {},
-            child: Icon(
-              Icons.search,
-              color: Colors.white,
-              size: 28.0,
-            ),
-          ),
-        ],
       ),
       body: Container(),
     );
