@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ],
                 ),
-                SliverHeadingText(text: 'Currently Reading:'),
+                /*SliverHeadingText(text: 'Currently Reading:'),
                 SliverToBoxAdapter(
                   child: Container(
                     height: 200.0,
@@ -69,7 +69,7 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
                   ),
-                ),
+                ),*/
                 SliverHeadingText(text: 'Popular Titles:'),
                 SliverPadding(
                   padding: const EdgeInsets.symmetric(horizontal: 17.5),

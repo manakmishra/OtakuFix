@@ -19,6 +19,8 @@ dependencies:
   html: ^0.14.0+4
   floating_search_bar: ^0.3.0
   cached_network_image: ^2.3.3
+  path_provider: ^1.6.21
+  photo_view: ^0.10.2
 
 
 dev_dependencies:

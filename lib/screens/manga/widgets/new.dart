@@ -7,6 +7,8 @@ import 'package:otaku_fix/constants/text_styles.dart';
 import '../manga_info_screen.dart';
 import 'package:otaku_fix/screens/home/widgets/sliver_heading_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:otaku_fix/screens/reader/reader.dart';
+import 'package:otaku_fix/classes/favourite.dart';
 
 class NewMangaScreen extends StatefulWidget {
   const NewMangaScreen({
@@ -64,7 +66,15 @@ class _NewMangaScreenState extends State<NewMangaScreen> {
       actions: <Widget>[
         IconButton(
             icon: Icon(Icons.favorite),
-            onPressed: () {}
+            onPressed: () async {
+              FavMangas fav = FavMangas();
+              fav.addFavorite(new Favourite(
+                  img: widget.manga.img,
+                  name: widget.manga.name,
+                  url: widget.manga.url,
+                  lastUpdated: widget.manga.updated
+              ));
+            }
         )
       ],
     ),
@@ -125,7 +135,7 @@ class _NewMangaScreenState extends State<NewMangaScreen> {
                       child: FlatButton(
                         splashColor: kNavBarColor,
                         color: kBackgroundColor,
-                        onPressed: () {/*
+                        onPressed: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -137,7 +147,7 @@ class _NewMangaScreenState extends State<NewMangaScreen> {
                                         ? widget.manga.chapters
                                         .indexOf(chapters[index])
                                         : index,
-                                  )));*/
+                                  )));
                         },
                         child: Align(
                           alignment: Alignment.centerLeft,

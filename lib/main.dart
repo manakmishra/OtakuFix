@@ -5,7 +5,6 @@ import 'package:otaku_fix/screens/splash/splash.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -28,12 +27,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-/*ThemeData(
-brightness: Brightness.dark,
-primaryColor: kPrimaryColor,
-accentColor: kAccentColor,
-backgroundColor: kBackgroundColor,
-scaffoldBackgroundColor: kBackgroundColor,
-visualDensity: VisualDensity.adaptivePlatformDensity,
-),*/
