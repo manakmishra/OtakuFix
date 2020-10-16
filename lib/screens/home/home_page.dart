@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:otaku_fix/api/main_api.dart';
 import 'package:otaku_fix/constants/colours.dart';
 import 'package:otaku_fix/constants/text_styles.dart';
-import 'package:otaku_fix/screens/search_screen.dart';
-import 'package:otaku_fix/screens/widgets/manga_card.dart';
+import 'package:otaku_fix/screens/search/search_screen.dart';
+import 'package:otaku_fix/screens/home/widgets/manga_card.dart';
 import 'widgets/sliver_heading_text.dart';
 
 class HomePage extends StatefulWidget {

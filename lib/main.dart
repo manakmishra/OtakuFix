@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:otaku_fix/constants/colours.dart';
-import 'package:otaku_fix/screens/splash.dart';
+import 'package:otaku_fix/screens/splash/splash.dart';
 
 void main() => runApp(MyApp());
 

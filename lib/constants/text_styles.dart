@@ -18,3 +18,22 @@ const kBodyTitleStyle = TextStyle(
   fontWeight: FontWeight.w600,
   fontSize: 18,
 );
+
+const kBodyTextStyle = TextStyle(
+  color: Colors.white,
+  fontFamily: 'Montserrat',
+  fontStyle: FontStyle.normal,
+  fontSize: 17,
+);
+
+const kMangaNameStyle = TextStyle(
+fontFamily: 'Montserrat',
+fontStyle: FontStyle.normal,
+fontSize: 21,
+);
+
+const kMangaDescStyle = TextStyle(
+  fontFamily: 'Montserrat',
+  fontStyle: FontStyle.normal,
+  fontSize: 16,
+);
