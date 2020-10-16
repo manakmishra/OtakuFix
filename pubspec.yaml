@@ -17,6 +17,7 @@ dependencies:
   persistent_bottom_nav_bar: any
   http: ^0.12.2
   html: ^0.14.0+4
+  floating_search_bar: ^0.3.0
 
 
 dev_dependencies:

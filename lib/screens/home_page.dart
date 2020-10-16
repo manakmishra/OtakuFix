@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:otaku_fix/api/main_api.dart';
 import 'package:otaku_fix/constants/colours.dart';
 import 'package:otaku_fix/constants/text_styles.dart';
+import 'package:otaku_fix/screens/search_screen.dart';
 import 'package:otaku_fix/screens/widgets/manga_card.dart';
 import 'widgets/sliver_heading_text.dart';
 
@@ -33,7 +34,9 @@ class _HomePageState extends State<HomePage> {
                     FlatButton(
                       padding: EdgeInsets.all(0),
                       minWidth: 32,
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (_) => SearchScreen()));
+                      },
                       child: Icon(
                         Icons.search,
                         color: Colors.white,
