@@ -21,7 +21,6 @@ class _MangaInfoScreenState extends State<MangaInfoScreen> {
         manga = Manga(value);
       });
     });
-
     super.initState();
   }
 

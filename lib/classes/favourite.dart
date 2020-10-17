@@ -1,29 +1,27 @@
 import 'dart:io';
 import 'dart:convert';
 import 'package:otaku_fix/classes/popular.dart';
+import 'package:otaku_fix/screens/favourites/favourites_screen.dart';
 import 'package:path_provider/path_provider.dart';
 
 class Favourite extends Popular {
-  Favourite({this.img, this.url, this.name, this.lastUpdated})
+  Favourite({this.img, this.url, this.name})
       : super(img: img, url: url, name: name);
   String img;
   String url;
   String name;
-  String lastUpdated;
 
   Map<String, dynamic> toJson() =>
       <String, dynamic>{
         'name': this.name,
         'url': this.url,
         'image': this.img,
-        'last_updated': this.lastUpdated
       };
 
   Favourite.fromJson(Map json) {
     this.name = json['name'];
     this.url = json['url'];
     this.img = json['image'];
-    this.lastUpdated = json['last_updated'];
   }
 }
 
@@ -59,18 +57,20 @@ class FavouriteStorage{
       String jsonString = await file.readAsString();
       Iterable jsonMap = jsonDecode(jsonString);
       List favourites = jsonMap.map((parsedJson) => Favourite.fromJson(parsedJson)).toList();
-
+      print(jsonString);
       return favourites;
 
     } catch (e) {
       print('error');
     }
-
     return List();
   }
 }
 
 class FavMangas{
+  FavMangas({this.screen});
+  FavouritesScreen screen;
+
   FavouriteStorage storage = FavouriteStorage();
   List favourites = [];
 
@@ -80,10 +80,9 @@ class FavMangas{
   }
 
   Future addFavorite(Favourite fav) async {
-    List temp = await readAllFavorites();
-    if (!temp.any((p) => p.name == fav.name)) {
-      temp.add(fav);
-
+    List favourites = await readAllFavorites();
+    if (!favourites.any((p) => p.name == fav.name)) {
+      favourites.add(fav);
       await storage.writeFavourites(favourites);
     }
   }

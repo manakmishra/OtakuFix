@@ -71,8 +71,7 @@ class _NewMangaScreenState extends State<NewMangaScreen> {
               fav.addFavorite(new Favourite(
                   img: widget.manga.img,
                   name: widget.manga.name,
-                  url: widget.manga.url,
-                  lastUpdated: widget.manga.updated
+                  url: widget.widget.url,
               ));
             }
         )

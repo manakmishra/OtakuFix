@@ -19,7 +19,6 @@ class Reader extends StatefulWidget {
 class _ReaderState extends State<Reader> {
   List<String> imageUrls = [];
   Axis _axis = Axis.vertical;
-  Icon _icon = Icon(Icons.stay_current_portrait);
   bool _showAppBar;
 
   Future<List<String>> getImages() async {
@@ -27,7 +26,7 @@ class _ReaderState extends State<Reader> {
     List<String> imageUrls = [];
 
     try {
-      var e = document.querySelector('.vung-doc');
+      var e = document.querySelector('#vungdoc');
       var elements = e.querySelectorAll('img');
       elements.forEach((element) {
         imageUrls.add(element.attributes['src']);
@@ -72,22 +71,7 @@ class _ReaderState extends State<Reader> {
             widget.chapter,
             style: TextStyle(fontSize: 14),
           ),
-          actions: <Widget>[
-            IconButton(
-                icon: _icon,
-                onPressed: () {
-                  setState(() {
-                    if (_axis == Axis.vertical) {
-                      _axis = Axis.horizontal;
-                      _icon = Icon(Icons.stay_current_landscape);
-                    } else {
-                      _axis = Axis.vertical;
-                      _icon = Icon(Icons.stay_current_portrait);
-                    }
-                  });
-                })
-          ],
-          backgroundColor: Colors.black87,
+          backgroundColor: kNavBarColor,
         ),
         body: imageUrls.isNotEmpty
             ? CustomScrollView(

@@ -11,26 +11,26 @@ class FavouritesScreen extends StatefulWidget {
 }
 
 class _FavouritesScreenState extends State<FavouritesScreen> {
-  FavMangas _favLoader = FavMangas();
 
-  List<Favourite> favourites = [];
+  Future<List<Favourite>> _loadFavourites() async {
+    FavMangas _favLoader = FavMangas();
+    List<Favourite> favourites = List();
+    await _favLoader.readAllFavorites().then((value)
+    {
+      setState(() {
+        favourites = value;
+      });
+    });
 
-  loadFavourites() async {
-    favourites = await _favLoader.readAllFavorites();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    loadFavourites();
+    return favourites;
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: loadFavourites(),
-        builder: (context, snapshot) {
-          if (favourites.isNotEmpty) {
+      future: _loadFavourites(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.hasData) {
             return Scaffold(
                 body: CustomScrollView(
                   slivers: <Widget>[
@@ -59,15 +59,15 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
                       ],
                     ),
                     SliverPadding(
-                      padding: const EdgeInsets.symmetric(horizontal: 17.5),
+                      padding: const EdgeInsets.only(left: 17.5, right: 17.5, top: 15),
                       sliver: SliverGrid(
                         delegate: SliverChildBuilderDelegate(
                               (BuildContext context, int index) {
                             return MangaCard(
-                              manga: favourites[index],
+                              manga: snapshot.data[index],
                             );
                           },
-                          childCount: favourites.length,
+                          childCount: snapshot.data.length,
                         ),
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,

@@ -66,7 +66,6 @@ class _OldMangaScreenState extends State<OldMangaScreen> {
                   img: widget.manga.img,
                   name: widget.manga.name,
                   url: widget.manga.url,
-                  lastUpdated: widget.manga.updated
                 ));
               }
               )
@@ -160,6 +159,5 @@ class _OldMangaScreenState extends State<OldMangaScreen> {
         ],
       ),
     );
-    ;
   }
 }
