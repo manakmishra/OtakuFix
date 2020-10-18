@@ -15,7 +15,6 @@ The latest release can be found in the [Releases](https://github.com/manakmishra
 ### Known Issues
 
 - Favourites screen does not update with the recently favourited Manga sometimes.
-- Reader screen not getting access to the chapter images so Manga cannot be read in-app yet.
 - Settings page not yet implemented.
 
 
