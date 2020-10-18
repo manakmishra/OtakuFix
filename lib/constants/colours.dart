@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:math';
 
 //theme colors
 final Color kBackgroundColor = Color(0xFF100B20);

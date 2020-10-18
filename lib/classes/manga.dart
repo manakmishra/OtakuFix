@@ -33,9 +33,6 @@ class Manga {
       var some = element.querySelectorAll('.story-info-right-extent > p');
       var ch = document.querySelectorAll('.row-content-chapter > .a-h > a');
 
-      var a = table[1].querySelectorAll('a');
-      var g = table[3].querySelectorAll('a');
-
       ch.forEach((element) {
         this
             .chapters
@@ -61,13 +58,11 @@ class Manga {
       } catch (e) {
         this.alternative = "None";
       }
-      var a = elements[1].querySelectorAll('a');
+
       this.status = elements[2].text;
       this.updated = elements[3].text;
       this.views = elements[5].text;
       this.img = document.querySelector(".manga-info-pic > img").attributes['src'];
-
-      var g = elements[6].querySelectorAll('a');
 
       this.description = document.querySelector("#noidungm").text;
       var ch = document.querySelectorAll('.chapter-list > .row > span > a');

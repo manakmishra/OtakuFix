@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:html/parser.dart';
 import 'package:floating_search_bar/floating_search_bar.dart';
 import 'package:otaku_fix/api/search_api.dart';
 import 'package:otaku_fix/screens/search/widgets/search_item.dart';

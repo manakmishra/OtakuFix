@@ -141,7 +141,6 @@ class _NewMangaScreenState extends State<NewMangaScreen> {
                                   builder: (_) => Reader(
                                     url: chapters[index].url,
                                     chapter: chapters[index].name,
-                                    chapterList: widget.manga.chapters,
                                     index: reversed
                                         ? widget.manga.chapters
                                         .indexOf(chapters[index])

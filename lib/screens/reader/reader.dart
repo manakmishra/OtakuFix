@@ -1,6 +1,4 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:otaku_fix/classes/chapter.dart';
 import 'package:html/dom.dart' as dom;
 import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
@@ -8,9 +6,8 @@ import 'package:otaku_fix/constants/colours.dart';
 import 'package:photo_view/photo_view.dart';
 
 class Reader extends StatefulWidget {
-  Reader({this.url, this.chapter, this.chapterList, this.index});
+  Reader({this.url, this.chapter, this.index});
   final String url, chapter;
-  final List<Chapter> chapterList;
   final int index;
   @override
   _ReaderState createState() => _ReaderState();
@@ -43,7 +40,9 @@ class _ReaderState extends State<Reader> {
   }
 
   Future<dom.Document> getChapter() async {
-    http.Response response = await http.get(widget.url);
+    http.Response response = await http.get(
+        widget.url
+    );
     dom.Document document = parse(response.body);
 
     return document;
@@ -92,7 +91,10 @@ class _ReaderState extends State<Reader> {
                                     _showAppBar = !_showAppBar;
                                   });
                                 },
-                                imageProvider: NetworkImage(imageUrls[index]),
+                                imageProvider: NetworkImage(
+                                    imageUrls[index],
+                                    headers: {"referer": widget.url}
+                                ),
                                 backgroundDecoration:
                                 BoxDecoration(color: Colors.black87),
                               )),
