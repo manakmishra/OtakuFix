@@ -41,7 +41,7 @@ class _ReaderState extends State<Reader> {
 
   Future<dom.Document> getChapter() async {
     http.Response response = await http.get(
-        widget.url
+        Uri.parse(widget.url)
     );
     dom.Document document = parse(response.body);
 

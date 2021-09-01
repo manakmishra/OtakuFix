@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:otaku_fix/constants/colours.dart';
 import 'package:otaku_fix/screens/favourites/favourites_screen.dart';
 import 'package:otaku_fix/screens/home/home_page.dart';
-import 'package:otaku_fix/screens/preferences/preferences_screen.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 // ignore: must_be_immutable
@@ -18,6 +17,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return PersistentTabView(
+      context,
       controller: _controller,
       screens: _buildScreens(),
       items: _navBarsItems(),
@@ -50,8 +50,7 @@ class _MyAppState extends State<MyApp> {
 List<Widget> _buildScreens() {
   return [
     HomePage(),
-    FavouritesScreen(),
-    PreferencesScreen()
+    FavouritesScreen()
   ];
 }
 
@@ -60,20 +59,14 @@ List<PersistentBottomNavBarItem> _navBarsItems() {
     PersistentBottomNavBarItem(
       icon: Icon(Icons.home),
       title: ("Home"),
-      activeColor: Colors.white,
-      inactiveColor: kAccentColor,
+      activeColorPrimary: Colors.white,
+      inactiveColorPrimary: kAccentColor,
     ),
     PersistentBottomNavBarItem(
       icon: Icon(Icons.favorite),
       title: ("Favourites"),
-      activeColor: Colors.white,
-      inactiveColor: kAccentColor,
-    ),
-    PersistentBottomNavBarItem(
-      icon: Icon(Icons.settings),
-      title: ("Preferences"),
-      activeColor: Colors.white,
-      inactiveColor: kAccentColor,
+      activeColorPrimary: Colors.white,
+      inactiveColorPrimary: kAccentColor,
     ),
   ];
 }

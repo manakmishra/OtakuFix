@@ -18,7 +18,7 @@ class Data {
   }
 
   Future<Document> getAppData() async{
-    http.Response response = await http.get(baseUrl);
+    http.Response response = await http.get(Uri.parse(baseUrl));
     Document doc = parse(response.body);
 
     return doc;

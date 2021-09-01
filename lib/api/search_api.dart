@@ -55,7 +55,7 @@ class SearchResults {
 Future<List<SearchResults>> search(String keyword) async{
   Map<String, String> body = {"searchword": keyword};
 
-  http.Response response = await http.post('https://manganelo.com/getstorysearchjson', body: body);
+  http.Response response = await http.post(Uri.parse('https://manganelo.com/getstorysearchjson'), body: body);
 
   final results = resultsFromJson(utf8.decode(response.bodyBytes));
   return results;
