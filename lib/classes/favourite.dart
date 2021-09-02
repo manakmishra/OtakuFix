@@ -1,18 +1,15 @@
 import 'dart:io';
 import 'dart:convert';
-import 'package:otaku_fix/classes/popular.dart';
 import 'package:otaku_fix/screens/favourites/favourites_screen.dart';
 import 'package:path_provider/path_provider.dart';
 
-class Favourite extends Popular {
-  Favourite({this.img, this.url, this.name})
-      : super(img: img, url: url, name: name);
+class Favourite {
+  Favourite({this.img, this.url, this.name});
   String img;
   String url;
   String name;
 
-  Map<String, dynamic> toJson() =>
-      <String, dynamic>{
+  Map<String, dynamic> toJson() => <String, dynamic>{
         'name': this.name,
         'url': this.url,
         'image': this.img,
@@ -25,21 +22,21 @@ class Favourite extends Popular {
   }
 }
 
-class FavouriteStorage{
-  Future get _localPath async{
+class FavouriteStorage {
+  Future get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
     return directory.path;
   }
 
-  Future get _localFile async{
+  Future get _localFile async {
     final path = await _localPath;
     return File('$path/favourites.json');
   }
 
-  Future writeFavourites(List favourites) async{
+  Future writeFavourites(List favourites) async {
     try {
       final file = await _localFile;
-      String json =  jsonEncode(favourites);
+      String json = jsonEncode(favourites);
 
       await file.writeAsString(json, mode: FileMode.write);
 
@@ -51,15 +48,15 @@ class FavouriteStorage{
     return false;
   }
 
-  Future readFavourites() async{
+  Future readFavourites() async {
     try {
       final file = await _localFile;
       String jsonString = await file.readAsString();
       Iterable jsonMap = jsonDecode(jsonString);
-      List favourites = jsonMap.map((parsedJson) => Favourite.fromJson(parsedJson)).toList();
+      List favourites =
+          jsonMap.map((parsedJson) => Favourite.fromJson(parsedJson)).toList();
       print(jsonString);
       return favourites;
-
     } catch (e) {
       print('error');
     }
@@ -67,7 +64,7 @@ class FavouriteStorage{
   }
 }
 
-class FavMangas{
+class FavMangas {
   FavMangas({this.screen});
   FavouritesScreen screen;
 

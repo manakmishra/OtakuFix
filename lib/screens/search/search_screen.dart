@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:otaku_fix/api/search_api.dart';
+import 'package:otaku_fix/api/api_base.dart';
+import 'package:otaku_fix/api/extensions/mangakakalot.dart';
+import 'package:otaku_fix/classes/manga.dart';
 import 'package:otaku_fix/screens/search/widgets/search_item.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -9,8 +11,11 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController _controller = TextEditingController();
-
   List<Widget> widgets = [];
+  final Base _api = Mangakakalot();
+  List<Manga> _mangas = <Manga>[];
+  bool _fetching = false;
+  Cursor _cursor;
 
   @override
   void initState() {
