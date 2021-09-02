@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:otaku_fix/classes/manga.dart';
 import 'package:otaku_fix/constants/colours.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-
 import 'package:otaku_fix/screens/manga/manga_info_screen.dart';
 
 class MangaCard extends StatelessWidget {
@@ -26,7 +24,10 @@ class MangaCard extends StatelessWidget {
           padding: EdgeInsets.only(left: 5.0, right: 5.0, bottom: 10.0),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(15.0),
-            child: Image.network(manga.thumbnailUrl),
+            child: Image.network(
+              manga.thumbnailUrl,
+              fit: BoxFit.fill,
+            ),
           )),
     );
   }

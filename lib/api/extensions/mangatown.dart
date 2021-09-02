@@ -219,6 +219,10 @@ class MangaTownLatestCursor extends Cursor {
     var eImg = elements[0];
     manga.thumbnailUrl = eImg.attributes['src'];
 
+    var views = element.getElementsByClassName('view');
+    manga.author = views[0].text.substring(8);
+    manga.status = views[1].text.substring(8);
+
     var eLast = element.children.last;
     manga.lastUpdated = eLast.text;
 

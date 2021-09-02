@@ -6,8 +6,8 @@ class Manga {
   String thumbnailUrl;
   String mangaUrl;
   String lastUpdated;
-  String summary;
-  List<Chapter> chapters;
+  String author;
+  String status;
 
   Manga(
       {String id,

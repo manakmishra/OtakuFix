@@ -1,9 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:otaku_fix/api/api_base.dart';
-import 'package:otaku_fix/api/extensions/mangakakalot.dart';
+import 'package:otaku_fix/api/extensions/mangatown.dart';
 import 'package:otaku_fix/classes/chapter.dart';
 import 'package:otaku_fix/classes/manga.dart';
 import 'package:otaku_fix/constants/colours.dart';
@@ -20,23 +19,20 @@ class MangaInfoScreen extends StatefulWidget {
 }
 
 class _MangaInfoScreenState extends State<MangaInfoScreen> {
-  final Base _api = Mangakakalot();
+  final Base _api = MangaTown();
   List<Chapter> _chapters = <Chapter>[];
   Manga _manga;
   double _angle;
   bool _fetching = false;
   bool _reversed = false;
-  Cursor _cursor;
 
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(seconds: 0), () {
-      _manga = widget.manga;
-      DB().saveManga(Mangakakalot().name, _manga.mangaUrl, _manga.name,
-          _manga.thumbnailUrl);
-    });
-    _angle = 0;
+    _manga = widget.manga;
+    DB().saveManga(
+        MangaTown().name, _manga.mangaUrl, _manga.name, _manga.thumbnailUrl);
+    _angle = pi;
   }
 
   void _fetchMangaDetails() async {
@@ -67,69 +63,172 @@ class _MangaInfoScreenState extends State<MangaInfoScreen> {
       appBar: AppBar(
         backgroundColor: kBackgroundColor,
         elevation: 0,
-        title: Row(
-          children: <Widget>[
-            IconButton(
-                icon: Transform.rotate(
-                  angle: _angle,
-                  child: Icon(Icons.filter_list),
-                ),
-                onPressed: () {
-                  setState(() {
-                    _chapters = _chapters.reversed.toList();
-                    _angle = _angle == 0 ? pi : 0;
-                  });
-                  _reversed = !_reversed;
-                })
-          ],
+        title: Container(
+          width: MediaQuery.of(context).size.width * 0.8,
+          child: Text(
+            widget.manga.name,
+            textAlign: TextAlign.left,
+            style: kBodyTitleStyle,
+          ),
         ),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.favorite),
-            onPressed: () async {},
-          )
-        ],
       ),
       body: CustomScrollView(
         slivers: <Widget>[
           SliverToBoxAdapter(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      padding: const EdgeInsets.all(14),
-                      child: Image.network(_manga.thumbnailUrl),
-                      height: MediaQuery.of(context).size.height * 0.3,
-                    )
-                  ],
+                Expanded(
+                  flex: 4,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        padding: const EdgeInsets.all(14),
+                        child: Image.network(_manga.thumbnailUrl),
+                        height: MediaQuery.of(context).size.height * 0.3,
+                      )
+                    ],
+                  ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width * 0.45,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          widget.manga.name,
-                          textAlign: TextAlign.left,
-                          style: kBodyTitleStyle,
-                        ),
-                        Text(widget.manga.id + "\n",
-                            textAlign: TextAlign.left, style: kBodyTextStyle),
-                        Text(widget.manga.lastUpdated, style: kBodyTextStyle)
-                      ],
+                Expanded(
+                  flex: 5,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Container(
+                      height: MediaQuery.of(context).size.height * 0.3,
+                      padding: EdgeInsets.only(top: 15),
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Text(
+                            _manga.name,
+                            textAlign: TextAlign.left,
+                            style: kBodyTitleStyle,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              RichText(
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: 'Author: ',
+                                      style: kBodyTextStyle.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: _manga.author,
+                                      style: kBodyTextStyle,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              RichText(
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: 'Status: ',
+                                      style: kBodyTextStyle.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: _manga.status,
+                                      style: kBodyTextStyle,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              RichText(
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: 'Last Updated: ',
+                                      style: kBodyTextStyle.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: _manga.lastUpdated,
+                                      style: kBodyTextStyle,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          Container(
+                            padding: EdgeInsets.only(top: 14.0),
+                            alignment: Alignment.center,
+                            child: ElevatedButton(
+                              onPressed: () => print("favourited"),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Icon(Icons.favorite_border_rounded),
+                                  Text(
+                                    '  Favorite this title!',
+                                    style: kBodyTextStyle,
+                                  ),
+                                ],
+                              ),
+                              style: ButtonStyle(
+                                shape: MaterialStateProperty.resolveWith<
+                                    OutlinedBorder>((_) {
+                                  return RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20));
+                                }),
+                                backgroundColor:
+                                    MaterialStateProperty.resolveWith<Color>(
+                                        (_) => kNavBarColor),
+                                elevation:
+                                    MaterialStateProperty.resolveWith<double>(
+                                        (_) => 3.0),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 )
               ],
             ),
           ),
-          SliverHeadingText(
-            text: "Chapters ($length): ",
+          SliverToBoxAdapter(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 20.0, bottom: 18.0, top: 15.0),
+                  child: Text(
+                    "Chapters ($length): ",
+                    style: kBodyTitleStyle,
+                  ),
+                ),
+                IconButton(
+                  icon: Transform.rotate(
+                    angle: _angle,
+                    child: Icon(Icons.filter_list),
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _chapters = _chapters.reversed.toList();
+                      _angle = _angle == 0 ? pi : 0;
+                    });
+                    _reversed = !_reversed;
+                  },
+                ),
+              ],
+            ),
           ),
           SliverList(
               delegate:
@@ -142,7 +241,7 @@ class _MangaInfoScreenState extends State<MangaInfoScreen> {
                     splashColor: kNavBarColor,
                     color: kBackgroundColor,
                     onPressed: () {
-                      Navigator.push(
+                      /*Navigator.push(
                           context,
                           MaterialPageRoute(
                               maintainState: false,
@@ -153,7 +252,7 @@ class _MangaInfoScreenState extends State<MangaInfoScreen> {
                                         ? widget.manga.chapters
                                             .indexOf(_chapters[index])
                                         : index,
-                                  )));
+                                  )));*/
                     },
                     child: Align(
                       alignment: Alignment.centerLeft,

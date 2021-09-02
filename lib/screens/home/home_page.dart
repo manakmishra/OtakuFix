@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:otaku_fix/api/api_base.dart';
-import 'package:otaku_fix/api/extensions/mangakakalot.dart';
+import 'package:otaku_fix/api/extensions/mangatown.dart';
 import 'package:otaku_fix/classes/manga.dart';
 import 'package:otaku_fix/constants/colours.dart';
 import 'package:otaku_fix/constants/text_styles.dart';
@@ -14,7 +14,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final Base _api = Mangakakalot();
+  final Base _api = MangaTown();
   List<Manga> _mangas = <Manga>[];
   bool _fetching = false;
   Cursor _cursor;
@@ -39,6 +39,7 @@ class _HomePageState extends State<HomePage> {
     }
 
     return Container(
+      color: kBackgroundColor,
       child: child,
     );
   }
@@ -92,7 +93,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),*/
-        SliverHeadingText(text: 'Popular Titles:'),
+        SliverHeadingText(text: 'Discover:'),
         SliverPadding(
           padding: const EdgeInsets.symmetric(horizontal: 17.5),
           sliver: SliverGrid(
