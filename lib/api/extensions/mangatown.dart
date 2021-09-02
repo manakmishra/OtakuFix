@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:html/dom.dart' as dom;
 import 'package:html/parser.dart';
 
-//import '../database/db.dart';
+import 'package:otaku_fix/database/db.dart';
 import 'package:otaku_fix/api/api_base.dart';
 import 'package:otaku_fix/classes/chapter.dart';
 import 'package:otaku_fix/classes/details.dart';
@@ -34,7 +34,7 @@ class MangaTown extends Base {
       return Details('', <Chapter>[]);
     }
 
-    var allRead; //= await DBHelper().getAllRead(name, mangaUrl);
+    var allRead = await DB().getAllRead(name, mangaUrl);
     var allReadSet = <String>{};
     allReadSet.addAll(allRead);
 

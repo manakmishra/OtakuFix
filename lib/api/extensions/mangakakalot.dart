@@ -8,8 +8,8 @@ import 'package:otaku_fix/classes/details.dart';
 import 'package:otaku_fix/classes/manga.dart';
 import 'package:otaku_fix/classes/pages.dart';
 
-//import '../database/db.dart';
-import '../api_base.dart';
+import 'package:otaku_fix/database/db.dart';
+import 'package:otaku_fix/api/api_base.dart';
 
 const maxRetry = 2;
 
@@ -30,8 +30,7 @@ class Mangakakalot extends Base {
       return [];
     }
 
-    //var results = await DBHelper().getAllRecents(name, n);
-    var results = [];
+    var results = await DB().getAllRecents(name, n);
     var recents = [];
 
     for (final row in results) {
@@ -66,8 +65,7 @@ class Mangakakalot extends Base {
       return Details('', <Chapter>[]);
     }
 
-    //var allRead = await DBHelper().getAllRead(name, mangaUrl);
-    var allRead;
+    var allRead = await DB().getAllRead(name, mangaUrl);
     var allReadSet = <String>{};
     allReadSet.addAll(allRead);
 
@@ -93,8 +91,7 @@ class Mangakakalot extends Base {
       return Details('', <Chapter>[]);
     }
 
-    //var allRead = await DBHelper().getAllRead(name, mangaUrl);
-    var allRead;
+    var allRead = await DB().getAllRead(name, mangaUrl);
     var allReadSet = <String>{};
     allReadSet.addAll(allRead);
 
