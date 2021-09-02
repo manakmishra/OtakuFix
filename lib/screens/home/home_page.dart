@@ -4,6 +4,7 @@ import 'package:otaku_fix/api/extensions/mangatown.dart';
 import 'package:otaku_fix/classes/manga.dart';
 import 'package:otaku_fix/constants/colours.dart';
 import 'package:otaku_fix/constants/text_styles.dart';
+import 'package:otaku_fix/screens/search/search_delegate.dart';
 import 'package:otaku_fix/screens/search/search_screen.dart';
 import 'package:otaku_fix/screens/home/widgets/manga_card.dart';
 import 'widgets/sliver_heading_text.dart';
@@ -57,8 +58,10 @@ class _HomePageState extends State<HomePage> {
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (_) => SearchScreen()));
+                showSearch(
+                  context: context,
+                  delegate: CustomSearchDelegate(),
+                );
               },
               child: Icon(
                 Icons.search,
