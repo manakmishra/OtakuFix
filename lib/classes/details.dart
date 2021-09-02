@@ -1,4 +1,4 @@
-import 'package:otaku_fix/classes/chapter_n.dart';
+import 'package:otaku_fix/classes/chapter.dart';
 
 class Details {
   String summary;

@@ -6,7 +6,7 @@ import 'package:html/parser.dart';
 
 //import '../database/db.dart';
 import 'package:otaku_fix/api/api_base.dart';
-import 'package:otaku_fix/classes/chapter_n.dart';
+import 'package:otaku_fix/classes/chapter.dart';
 import 'package:otaku_fix/classes/details.dart';
 import 'package:otaku_fix/classes/manga.dart';
 import 'package:otaku_fix/classes/pages.dart';

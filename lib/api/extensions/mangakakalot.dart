@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:html/dom.dart' as dom;
 import 'package:html/parser.dart';
 import 'package:http/http.dart';
-import 'package:otaku_fix/classes/chapter_n.dart';
+import 'package:otaku_fix/classes/chapter.dart';
 import 'package:otaku_fix/classes/details.dart';
 import 'package:otaku_fix/classes/manga.dart';
 import 'package:otaku_fix/classes/pages.dart';
