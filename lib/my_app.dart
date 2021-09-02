@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:otaku_fix/constants/colours.dart';
 import 'package:otaku_fix/screens/favourites/favourites_screen.dart';
@@ -6,7 +8,6 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 // ignore: must_be_immutable
 class MyApp extends StatefulWidget {
-
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -61,12 +62,22 @@ List<PersistentBottomNavBarItem> _navBarsItems() {
       title: ("Home"),
       activeColorPrimary: Colors.white,
       inactiveColorPrimary: kAccentColor,
+      opacity: 0.75,
+      filter: ImageFilter.blur(
+        sigmaX: 5.0,
+        sigmaY: 5.0,
+      ),
     ),
     PersistentBottomNavBarItem(
       icon: Icon(Icons.favorite),
       title: ("Favourites"),
       activeColorPrimary: Colors.white,
       inactiveColorPrimary: kAccentColor,
+      opacity: 0.75,
+      filter: ImageFilter.blur(
+        sigmaX: 5.0,
+        sigmaY: 5.0,
+      ),
     ),
   ];
 }

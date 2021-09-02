@@ -40,43 +40,42 @@ class _NewMangaScreenState extends State<NewMangaScreen> {
   Widget build(BuildContext context) {
     CachedNetworkImage img = widget.widget.img == null
         ? CachedNetworkImage(
-      imageUrl: widget.manga.img,
-    )
+            imageUrl: widget.manga.img,
+          )
         : widget.widget.img;
 
     return Scaffold(
       appBar: AppBar(
-      backgroundColor: kBackgroundColor,
-      elevation: 0,
-      title: Row(
-        children: <Widget>[
+        backgroundColor: kBackgroundColor,
+        elevation: 0,
+        title: Row(
+          children: <Widget>[
+            IconButton(
+                icon: Transform.rotate(
+                  angle: _angle,
+                  child: Icon(Icons.filter_list),
+                ),
+                onPressed: () {
+                  setState(() {
+                    chapters = chapters.reversed.toList();
+                    _angle = _angle == 0 ? pi : 0;
+                  });
+                })
+          ],
+        ),
+        actions: <Widget>[
           IconButton(
-              icon: Transform.rotate(
-                angle: _angle,
-                child: Icon(Icons.filter_list),
-              ),
-              onPressed: () {
-                setState(() {
-                  chapters = chapters.reversed.toList();
-                  _angle = _angle == 0 ? pi : 0;
-                });
-              })
-        ],
-      ),
-      actions: <Widget>[
-        IconButton(
-            icon: Icon(Icons.favorite),
-            onPressed: () async {
-              FavMangas fav = FavMangas();
-              fav.addFavorite(new Favourite(
+              icon: Icon(Icons.favorite),
+              onPressed: () async {
+                FavMangas fav = FavMangas();
+                fav.addFavorite(new Favourite(
                   img: widget.manga.img,
                   name: widget.manga.name,
                   url: widget.widget.url,
-              ));
-            }
-        )
-      ],
-    ),
+                ));
+              })
+        ],
+      ),
       body: CustomScrollView(
         slivers: <Widget>[
           SliverToBoxAdapter(
@@ -105,15 +104,9 @@ class _NewMangaScreenState extends State<NewMangaScreen> {
                           textAlign: TextAlign.left,
                           style: kBodyTitleStyle,
                         ),
-                        Text(
-                          widget.manga.status + "\n",
-                          textAlign: TextAlign.left,
-                          style: kBodyTextStyle
-                        ),
-                        Text(
-                          widget.manga.updated,
-                          style: kBodyTextStyle
-                        )
+                        Text(widget.manga.status + "\n",
+                            textAlign: TextAlign.left, style: kBodyTextStyle),
+                        Text(widget.manga.updated, style: kBodyTextStyle)
                       ],
                     ),
                   ),
@@ -126,46 +119,47 @@ class _NewMangaScreenState extends State<NewMangaScreen> {
           ),
           SliverList(
               delegate:
-              SliverChildBuilderDelegate((BuildContext context, int index) {
-                return Column(
-                  children: <Widget>[
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.07,
-                      child: FlatButton(
-                        splashColor: kNavBarColor,
-                        color: kBackgroundColor,
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) => Reader(
+                  SliverChildBuilderDelegate((BuildContext context, int index) {
+            return Column(
+              children: <Widget>[
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.07,
+                  child: FlatButton(
+                    splashColor: kNavBarColor,
+                    color: kBackgroundColor,
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              maintainState: false,
+                              builder: (_) => Reader(
                                     url: chapters[index].url,
                                     chapter: chapters[index].name,
                                     index: reversed
                                         ? widget.manga.chapters
-                                        .indexOf(chapters[index])
+                                            .indexOf(chapters[index])
                                         : index,
                                   )));
-                        },
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            chapters[index].name,
-                            style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              color: Colors.white,
-                            ),
-                          ),
+                    },
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        chapters[index].name,
+                        style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          color: Colors.white,
                         ),
                       ),
                     ),
-                    Divider(
-                      height: 1,
-                      color: kAccentColor,
-                    )
-                  ],
-                );
-              }, childCount: chapters.length))
+                  ),
+                ),
+                Divider(
+                  height: 1,
+                  color: kAccentColor,
+                )
+              ],
+            );
+          }, childCount: chapters.length))
         ],
       ),
     );
