@@ -8,7 +8,6 @@ import 'package:otaku_fix/classes/manga.dart';
 import 'package:otaku_fix/constants/colours.dart';
 import 'package:otaku_fix/constants/text_styles.dart';
 import 'package:otaku_fix/database/db.dart';
-import 'package:otaku_fix/screens/home/widgets/sliver_heading_text.dart';
 import 'package:otaku_fix/screens/reader/reader.dart';
 
 class MangaInfoScreen extends StatefulWidget {
@@ -108,6 +107,8 @@ class _MangaInfoScreenState extends State<MangaInfoScreen> {
                             _manga.name,
                             textAlign: TextAlign.left,
                             style: kBodyTitleStyle,
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
                           ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -241,18 +242,16 @@ class _MangaInfoScreenState extends State<MangaInfoScreen> {
                     splashColor: kNavBarColor,
                     color: kBackgroundColor,
                     onPressed: () {
-                      /*Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              maintainState: false,
-                              builder: (_) => Reader(
-                                    url: _chapters[index].url,
-                                    chapter: _chapters[index].text,
-                                    index: _reversed
-                                        ? widget.manga.chapters
-                                            .indexOf(_chapters[index])
-                                        : index,
-                                  )));*/
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          maintainState: false,
+                          builder: (_) => Reader(
+                            mangaUrl: _manga.mangaUrl,
+                            chapterUrl: _chapters[index].url,
+                          ),
+                        ),
+                      );
                     },
                     child: Align(
                       alignment: Alignment.centerLeft,

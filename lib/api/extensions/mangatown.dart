@@ -13,7 +13,7 @@ import 'package:otaku_fix/classes/pages.dart';
 
 class MangaTown extends Base {
   final name = 'MangaTown';
-  final url = 'https://www.mangatown.com/';
+  final url = 'https://www.mangatown.com';
 
   Cursor getLatestMangas() {
     return MangaTownLatestCursor();
@@ -77,7 +77,6 @@ class MangaTown extends Base {
 
   Future<Pages> getChapterPages(chapterUrl) async {
     final response = await http.get(Uri.parse(this.url + chapterUrl));
-
     var maxPages = _getNumberOfPages(response.body, chapterUrl);
     var pages = await _getPages(chapterUrl, maxPages);
 
@@ -115,7 +114,7 @@ class MangaTown extends Base {
     var imgUrls = <String>[];
     results.forEach((response) {
       var body = response.body;
-      var exp = new RegExp(r'//l.mangatown.com/store/manga/.*?.jpg');
+      var exp = new RegExp(r'//([^:\/\s]+)/store/manga/.*?.jpg');
       var match = exp.firstMatch(body);
 
       var pageUrl = match.group(0);
