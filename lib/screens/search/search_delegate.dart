@@ -8,10 +8,12 @@ import 'package:otaku_fix/screens/home/widgets/manga_card.dart';
 
 class CustomSearchDelegate extends SearchDelegate {
   final Base _api = MangaTown();
-  List<Manga> _mangas = <Manga>[];
   bool _showClearButton = false;
   bool _notFetching = false;
   Cursor _cursor;
+
+  @override
+  String get searchFieldLabel => 'What do you wanna read?';
 
   @override
   ThemeData appBarTheme(BuildContext context) {
@@ -29,7 +31,8 @@ class CustomSearchDelegate extends SearchDelegate {
       ),
       inputDecorationTheme: searchFieldDecorationTheme ??
           InputDecorationTheme(
-            hintStyle: kBodyTextStyle.copyWith(fontSize: 20),
+            hintStyle:
+                kBodyTextStyle.copyWith(fontSize: 20, color: kAccentColor),
             labelStyle: kBodyTextStyle.copyWith(fontSize: 20),
             border: InputBorder.none,
           ),
@@ -69,6 +72,7 @@ class CustomSearchDelegate extends SearchDelegate {
           Center(
             child: Text(
               "Search term must be longer than two letters.",
+              style: TextStyle(fontFamily: 'Montserrat', color: kAccentColor),
             ),
           )
         ],
@@ -76,59 +80,44 @@ class CustomSearchDelegate extends SearchDelegate {
     }
 
     _cursor = _api.getSearchResults(query);
-    /*_mangas.clear();
-    var mangas = _cursor.getNext();
 
-    _mangas.addAll(mangas);
-    if ((await mangas).isNotEmpty) {
-      _notFetching = true;
-    }*/
-
-    return Column(
-      children: <Widget>[
-        //Build the results based on the searchResults stream in the searchBloc
-        StreamBuilder(
-          stream: _cursor.getNext().asStream(),
-          initialData: <Manga>[],
-          builder: (context, AsyncSnapshot<List<Manga>> snapshot) {
-            if (!snapshot.hasData) {
-              return Center(child: CircularProgressIndicator());
-            } else if (snapshot.data.length == 0) {
-              return Center(
-                child: Text(
-                  "No Results Found.",
-                ),
-              );
-            } else {
-              var results = snapshot.data;
-              /*return ListView.builder(
-                shrinkWrap: true,
-                itemCount: results.length,
-                itemBuilder: (context, index) {
-                  var result = results[index];
-                  return MangaCard(
-                    manga: result,
-                  );
-                },
-              );*/
-              return GridView.builder(
-                shrinkWrap: true,
-                itemCount: results.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 1,
-                  childAspectRatio: 225 / 320,
-                ),
-                itemBuilder: (BuildContext context, int index) {
-                  return MangaCard(
-                    manga: results[index],
-                  );
-                },
-              );
-            }
-          },
-        ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 17.5),
+      child: StreamBuilder(
+        stream: _cursor.getNext().asStream(),
+        builder: (context, AsyncSnapshot<List<Manga>> snapshot) {
+          if (!snapshot.hasData) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Center(child: CircularProgressIndicator()),
+              ],
+            );
+          } else if (snapshot.data.length == 0) {
+            return Center(
+              child: Text(
+                "No Results Found.",
+                style: TextStyle(fontFamily: 'Montserrat', color: kAccentColor),
+              ),
+            );
+          } else {
+            var results = snapshot.data;
+            return GridView.builder(
+              itemCount: results.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 1,
+                childAspectRatio: 225 / 320,
+              ),
+              itemBuilder: (BuildContext context, int index) {
+                return MangaCard(
+                  manga: results[index],
+                );
+              },
+            );
+          }
+        },
+      ),
     );
   }
 

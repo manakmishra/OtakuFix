@@ -210,7 +210,7 @@ class MangaTownLatestCursor extends Cursor {
     }
 
     manga.id = splitHref[2];
-    manga.name = eCover.attributes['title'];
+    manga.name = eCover.attributes['title'].toUpperCase();
 
     elements = eCover.getElementsByTagName('img');
     if (elements.isEmpty) {
