@@ -313,16 +313,7 @@ class _MangaInfoScreenState extends State<MangaInfoScreen> {
                               fontFamily: 'Montserrat',
                               color: Colors.white,
                               fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Text(
-                            _chapters[index].lastRead.toString(),
-                            style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              color: Colors.white,
+                              fontSize: 18,
                             ),
                           ),
                         ),

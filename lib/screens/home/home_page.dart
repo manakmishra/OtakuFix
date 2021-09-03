@@ -4,6 +4,7 @@ import 'package:otaku_fix/api/extensions/mangatown.dart';
 import 'package:otaku_fix/classes/manga.dart';
 import 'package:otaku_fix/constants/colours.dart';
 import 'package:otaku_fix/constants/text_styles.dart';
+import 'package:otaku_fix/screens/manga/manga_info_screen.dart';
 import 'package:otaku_fix/screens/search/search_delegate.dart';
 import 'package:otaku_fix/screens/home/widgets/manga_card.dart';
 import 'widgets/sliver_heading_text.dart';
@@ -95,7 +96,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),*/
-        SliverHeadingText(text: 'Discover:'),
+        SliverHeadingText(text: 'Latest Titles:'),
         SliverPadding(
           padding: const EdgeInsets.symmetric(horizontal: 17.5),
           sliver: SliverGrid(
@@ -103,6 +104,16 @@ class _HomePageState extends State<HomePage> {
               (BuildContext context, int index) {
                 return MangaCard(
                   manga: _mangas[index],
+                  onTap: () {
+                    Navigator.of(context, rootNavigator: true).push(
+                      MaterialPageRoute(
+                        maintainState: false,
+                        builder: (_) => MangaInfoScreen(
+                          manga: _mangas[index],
+                        ),
+                      ),
+                    );
+                  },
                 );
               },
               childCount: _mangas.length,

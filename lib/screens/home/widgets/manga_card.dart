@@ -4,22 +4,18 @@ import 'package:otaku_fix/constants/colours.dart';
 import 'package:otaku_fix/screens/manga/manga_info_screen.dart';
 
 class MangaCard extends StatelessWidget {
-  const MangaCard({Key key, @required this.manga, this.height})
+  const MangaCard({Key key, @required this.manga, this.height, this.onTap})
       : super(key: key);
 
   final Manga manga;
   final double height;
+  final Function onTap;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       splashColor: kNavBarColor,
-      onTap: () {
-        Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-            builder: (_) => MangaInfoScreen(
-                  manga: manga,
-                )));
-      },
+      onTap: onTap,
       child: Padding(
           padding: EdgeInsets.only(left: 5.0, right: 5.0, bottom: 10.0),
           child: ClipRRect(

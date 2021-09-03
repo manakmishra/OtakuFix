@@ -5,6 +5,7 @@ import 'package:otaku_fix/classes/manga.dart';
 import 'package:otaku_fix/constants/colours.dart';
 import 'package:otaku_fix/constants/text_styles.dart';
 import 'package:otaku_fix/screens/home/widgets/sliver_heading_text.dart';
+import 'package:otaku_fix/screens/manga/manga_info_screen.dart';
 import 'package:otaku_fix/screens/search/search_delegate.dart';
 import 'package:otaku_fix/screens/home/widgets/manga_card.dart';
 
@@ -91,6 +92,14 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
               (BuildContext context, int index) {
                 return MangaCard(
                   manga: _mangas[index],
+                  onTap: () {
+                    Navigator.of(context, rootNavigator: true).push(
+                      MaterialPageRoute(
+                          builder: (_) => MangaInfoScreen(
+                                manga: _mangas[index],
+                              )),
+                    );
+                  },
                 );
               },
               childCount: _mangas.length,
