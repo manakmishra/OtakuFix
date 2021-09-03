@@ -5,7 +5,7 @@ An open source Manga reader made with Flutter.
 ### Screenshots
 
 
-<img src="screenshots/1.jpg" width="150"> <img src="screenshots/2.jpg" width="150"> <img src="screenshots/3.jpg" width="150"> <img src="screenshots/4.jpg" width="150" >
+<img src="screenshots/splash.jpg" width="150"> <img src="screenshots/home.jpg" width="150"> <img src="screenshots/search.jpg" width="150"> <img src="screenshots/manga.jpg" width="150" > <img src="screenshots/favorite.jpg" width="150" >
 
 ### Releases
 
