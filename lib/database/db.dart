@@ -1,3 +1,4 @@
+import 'package:otaku_fix/classes/manga.dart';
 import 'package:otaku_fix/database/migrations/002_add_source_to_read.dart';
 import 'package:otaku_fix/database/migrations/003_add_manga_add_timestamp.dart';
 import 'package:otaku_fix/database/migrations/004_add_manga_thumbnail.dart';
@@ -100,6 +101,24 @@ class DB {
     return list;
   }
 
+  Future<List<Map<String, dynamic>>> getAllFavorites(String source) async {
+    var dbClient = await db;
+
+    var list = await dbClient.query('favorite', distinct: true);
+
+    return list;
+  }
+
+  Future<bool> checkFavorite(String source, String manga) async {
+    var dbClient = await db;
+    var check = await dbClient.rawQuery('''
+      SELECT 1 FROM favorite 
+      WHERE source = ? AND manga = ?
+     ''', [source, manga]);
+
+    return check.isNotEmpty;
+  }
+
   Future<int> saveRead(
       String source, String manga, String chapter, String chapterName) async {
     var dbClient = await db;
@@ -115,6 +134,33 @@ class DB {
         'chapter_name': chapterName
       },
       conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+    return recordId;
+  }
+
+  Future<int> saveFavorite(String source, Manga manga) async {
+    var dbClient = await db;
+
+    final ts = DateTime.now().millisecondsSinceEpoch;
+    var recordId = await dbClient.insert(
+      'favorite',
+      {
+        'source': source,
+        'manga': manga.mangaUrl,
+        'name': manga.name,
+        'thumbnail': manga.thumbnailUrl,
+      },
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+    return recordId;
+  }
+
+  Future<int> removeFavorite(String source, Manga manga) async {
+    var dbClient = await db;
+    var recordId = await dbClient.delete(
+      'favorite',
+      where: 'source = ? AND manga = ?',
+      whereArgs: [source, manga.mangaUrl],
     );
     return recordId;
   }

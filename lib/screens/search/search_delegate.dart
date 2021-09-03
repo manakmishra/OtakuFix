@@ -5,6 +5,7 @@ import 'package:otaku_fix/classes/manga.dart';
 import 'package:otaku_fix/constants/colours.dart';
 import 'package:otaku_fix/constants/text_styles.dart';
 import 'package:otaku_fix/screens/home/widgets/manga_card.dart';
+import 'package:otaku_fix/screens/search/widgets/search_item.dart';
 
 class CustomSearchDelegate extends SearchDelegate {
   final Base _api = MangaTown();
@@ -102,16 +103,11 @@ class CustomSearchDelegate extends SearchDelegate {
             );
           } else {
             var results = snapshot.data;
-            return GridView.builder(
+            return ListView.builder(
               itemCount: results.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 1,
-                childAspectRatio: 225 / 320,
-              ),
               itemBuilder: (BuildContext context, int index) {
-                return MangaCard(
-                  manga: results[index],
+                return SearchItem(
+                  result: results[index],
                 );
               },
             );

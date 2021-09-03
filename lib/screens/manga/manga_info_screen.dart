@@ -34,6 +34,13 @@ class _MangaInfoScreenState extends State<MangaInfoScreen> {
     _angle = pi;
   }
 
+  void updateMangaFav() {
+    setState(() {
+      _manga = widget.manga;
+      _manga.favorited = !_manga.favorited;
+    });
+  }
+
   void _fetchMangaDetails() async {
     _fetching = true;
     var details = await _api.getMangaDetails(_manga.mangaUrl);
@@ -167,15 +174,58 @@ class _MangaInfoScreenState extends State<MangaInfoScreen> {
                             padding: EdgeInsets.only(top: 14.0),
                             alignment: Alignment.center,
                             child: ElevatedButton(
-                              onPressed: () => print("favourited"),
+                              onPressed: _manga.favorited
+                                  ? () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            content: Text(
+                                                "Would you like to remove ${_manga.name} from favorites?"),
+                                            actions: [
+                                              TextButton(
+                                                child: Text("Cancel"),
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                              ),
+                                              TextButton(
+                                                child: Text("Remove"),
+                                                onPressed: () async {
+                                                  await DB().removeFavorite(
+                                                    MangaTown().name,
+                                                    _manga,
+                                                  );
+                                                  Navigator.pop(context);
+                                                  updateMangaFav();
+                                                },
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    }
+                                  : () async {
+                                      await DB().saveFavorite(
+                                        MangaTown().name,
+                                        _manga,
+                                      );
+                                      updateMangaFav();
+                                    },
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  Icon(Icons.favorite_border_rounded),
+                                  Icon(
+                                    _manga.favorited
+                                        ? Icons.favorite_rounded
+                                        : Icons.favorite_border_rounded,
+                                  ),
                                   Text(
-                                    '  Favorite this title!',
+                                    _manga.favorited
+                                        ? 'Already favorited!'
+                                        : '  Favorite this title!',
                                     style: kBodyTextStyle,
                                   ),
                                 ],
@@ -237,10 +287,9 @@ class _MangaInfoScreenState extends State<MangaInfoScreen> {
             return Column(
               children: <Widget>[
                 Container(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
                   height: MediaQuery.of(context).size.height * 0.07,
-                  child: FlatButton(
-                    splashColor: kNavBarColor,
-                    color: kBackgroundColor,
+                  child: TextButton(
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -253,21 +302,37 @@ class _MangaInfoScreenState extends State<MangaInfoScreen> {
                         ),
                       );
                     },
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        _chapters[index].text,
-                        style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          color: Colors.white,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            _chapters[index].text,
+                            style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
                         ),
-                      ),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Text(
+                            _chapters[index].lastRead.toString(),
+                            style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
                 Divider(
                   height: 1,
-                  color: kAccentColor,
+                  color: kAccentColor.withAlpha(0XC0),
                 )
               ],
             );

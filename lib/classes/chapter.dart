@@ -2,7 +2,7 @@ class Chapter {
   String url;
   String text;
   bool isRead = false;
-  int lastRead;
+  String lastRead;
 
   Chapter(this.url, this.text);
 

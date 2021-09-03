@@ -37,11 +37,6 @@ class ReaderState extends State<Reader> {
           snap: false,
           backgroundColor: kBackgroundColor,
           elevation: 0,
-          title: Text(
-            'Chapter YYY',
-            textAlign: TextAlign.left,
-            style: kBodyTitleStyle,
-          ),
         ),
         SliverFillRemaining(
           child: _buildPages(this._images, padding: 0),
@@ -65,7 +60,6 @@ class ReaderState extends State<Reader> {
 
         return _buildPage(images[i], _manga, padding);
       },
-      shrinkWrap: true,
     );
   }
 
@@ -97,8 +91,8 @@ class ReaderState extends State<Reader> {
 }
 
 class Reader extends StatefulWidget {
-  Reader({this.mangaUrl, this.chapterUrl});
-  final String mangaUrl, chapterUrl;
+  Reader({this.mangaUrl, this.chapterUrl, this.chapterName});
+  final String mangaUrl, chapterUrl, chapterName;
 
   @override
   ReaderState createState() => ReaderState();

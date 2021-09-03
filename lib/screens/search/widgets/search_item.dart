@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:html/parser.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:otaku_fix/classes/manga.dart';
+import 'package:otaku_fix/constants/text_styles.dart';
 import 'package:otaku_fix/screens/manga/manga_info_screen.dart';
 
 class SearchItem extends StatefulWidget {
@@ -41,28 +43,44 @@ class _SearchItemState extends State<SearchItem> {
           width: MediaQuery.of(context).size.width,
           child: Row(
             children: <Widget>[
-              Column(
-                children: <Widget>[
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.2,
-                    child: CachedNetworkImage(
-                        imageUrl: widget.result.thumbnailUrl),
-                  )
-                ],
+              Expanded(
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.2,
+                      child: CachedNetworkImage(
+                        imageUrl: widget.result.thumbnailUrl,
+                        errorWidget: (ctx, msg, _) => Container(
+                          child: Center(
+                            child: Text(
+                              'Cannot load thumbnail: ${_.statusCode}',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Colors.red, fontFamily: 'Montserrat'),
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
+              Expanded(
+                flex: 2,
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.6,
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       Text(
-                        "Name: $name",
-                        textAlign: TextAlign.left,
+                        "$name",
+                        style: kBodyTitleStyle,
+                        textAlign: TextAlign.center,
                       ),
                       Text(
-                        "Last Updated: ${widget.result.lastUpdated}",
-                        textAlign: TextAlign.left,
+                        "Last Updated: \n${widget.result.lastUpdated}",
+                        textAlign: TextAlign.center,
+                        style: kBodyTextStyle,
                       )
                     ],
                   ),

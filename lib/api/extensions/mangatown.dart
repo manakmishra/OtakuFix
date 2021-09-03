@@ -23,6 +23,10 @@ class MangaTown extends Base {
     return MangaTownSearchCursor(search);
   }
 
+  Cursor getFavorites() {
+    return MangaTownFavCursor();
+  }
+
   Future<Details> getMangaDetails(String mangaUrl) async {
     final url = '${this.url}$mangaUrl';
     final response = await http.get(Uri.parse(url));
@@ -225,7 +229,39 @@ class MangaTownLatestCursor extends Cursor {
     var eLast = element.children.last;
     manga.lastUpdated = eLast.text;
 
+    DB().checkFavorite(MangaTown().name, manga.mangaUrl).then((value) {
+      manga.favorited = value;
+    });
+
     return manga;
+  }
+}
+
+class MangaTownFavCursor extends Cursor {
+  Future<List<Manga>> getNext() async {
+    var favDB = await DB().getAllFavorites(MangaTown().name);
+    var mangas = _getMangas(favDB);
+    return mangas;
+  }
+
+  List<Manga> _getMangas(var fav) {
+    List<Manga> results = <Manga>[];
+
+    for (var entry in fav) {
+      Manga manga = Manga();
+      manga.mangaUrl = entry['manga'];
+      manga.id = manga.mangaUrl.split('/').last;
+      manga.favorited = true;
+      manga.name = entry['name'];
+      manga.thumbnailUrl = entry['thumbnail'];
+      manga.author = entry['author'];
+      manga.status = entry['status'];
+      manga.lastUpdated = entry['updated'];
+
+      results.add(manga);
+    }
+
+    return results;
   }
 }
 

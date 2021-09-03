@@ -14,4 +14,16 @@ Future<void> upgradeTo003(Database db) async {
         UNIQUE(source, manga)
       )
     """);
+
+  await db.execute("""CREATE TABLE favorite(
+        id INTEGER PRIMARY KEY,
+        source TEXT,
+        manga TEXT,
+        name TEXT,
+        thumbnail TEXT,
+        author TEXT,
+        status TEXT,
+        UNIQUE(source, manga)
+      )
+    """);
 }

@@ -8,6 +8,7 @@ class Manga {
   String lastUpdated;
   String author;
   String status;
+  bool favorited = false;
 
   Manga(
       {String id,
