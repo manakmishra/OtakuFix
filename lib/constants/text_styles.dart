@@ -23,13 +23,13 @@ const kBodyTextStyle = TextStyle(
   color: Colors.white,
   fontFamily: 'Montserrat',
   fontStyle: FontStyle.normal,
-  fontSize: 17,
+  fontSize: 15,
 );
 
 const kMangaNameStyle = TextStyle(
-fontFamily: 'Montserrat',
-fontStyle: FontStyle.normal,
-fontSize: 21,
+  fontFamily: 'Montserrat',
+  fontStyle: FontStyle.normal,
+  fontSize: 21,
 );
 
 const kMangaDescStyle = TextStyle(

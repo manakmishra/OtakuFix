@@ -1,38 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:otaku_fix/classes/popular.dart';
+import 'package:otaku_fix/classes/manga.dart';
 import 'package:otaku_fix/constants/colours.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-
 import 'package:otaku_fix/screens/manga/manga_info_screen.dart';
 
 class MangaCard extends StatelessWidget {
-  const MangaCard({
-    Key key,
-    @required this.manga,
-    this.height
+  const MangaCard({Key key, @required this.manga, this.height, this.onTap})
+      : super(key: key);
 
-  }) : super(key: key);
-
-  final Popular manga;
+  final Manga manga;
   final double height;
+  final Function onTap;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       splashColor: kNavBarColor,
-      onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (_) => MangaInfoScreen(
-          url: manga.url,
-          img: CachedNetworkImage(imageUrl: manga.img),
-        )));
-      },
+      onTap: onTap,
       child: Padding(
           padding: EdgeInsets.only(left: 5.0, right: 5.0, bottom: 10.0),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(15.0),
             child: Image.network(
-                manga.img
+              manga.thumbnailUrl,
+              fit: BoxFit.fill,
             ),
           )),
     );

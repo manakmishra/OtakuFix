@@ -1,123 +1,163 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
-import 'package:html/dom.dart' as dom;
-import 'package:html/parser.dart';
-import 'package:http/http.dart' as http;
+
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:otaku_fix/api/extensions/mangatown.dart';
 import 'package:otaku_fix/constants/colours.dart';
-import 'package:photo_view/photo_view.dart';
+import 'package:otaku_fix/constants/text_styles.dart';
 
-class Reader extends StatefulWidget {
-  Reader({this.url, this.chapter, this.index});
-  final String url, chapter;
-  final int index;
-  @override
-  _ReaderState createState() => _ReaderState();
-}
+import 'package:otaku_fix/database/db.dart';
 
-class _ReaderState extends State<Reader> {
-  List<String> imageUrls = [];
-  Axis _axis = Axis.vertical;
-  bool _showAppBar;
+class ReaderState extends State<Reader> {
+  final MangaTown _api = MangaTown();
+  final List<String> _images = <String>[];
+  final Set<String> _chapters = <String>{};
+  String _manga;
 
-  Future<List<String>> getImages() async {
-    dom.Document document = await getChapter();
-    List<String> imageUrls = [];
-
-    try {
-      var e = document.querySelector('#vungdoc');
-      var elements = e.querySelectorAll('img');
-      elements.forEach((element) {
-        imageUrls.add(element.attributes['src']);
-      });
-    } catch (e) {
-      var e = document.querySelector('.container-chapter-reader');
-      var elements = e.querySelectorAll('img');
-      elements.forEach((element) {
-        imageUrls.add(element.attributes['src']);
-      });
-    }
-
-    return imageUrls;
-  }
-
-  Future<dom.Document> getChapter() async {
-    http.Response response = await http.get(
-        widget.url
-    );
-    dom.Document document = parse(response.body);
-
-    return document;
-  }
-
-  @override
-  void initState() {
-    _showAppBar = true;
-    getImages().then((value) {
-      setState(() {
-        imageUrls = value;
-      });
-    });
-
-    super.initState();
-  }
+  bool _isFetching = false;
+  String _prevChapter = '';
+  String _currChapter = '';
+  String _nextChapter = '';
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: !_showAppBar
-            ? null
-            : AppBar(
-          title: Text(
-            widget.chapter,
-            style: TextStyle(fontSize: 14),
-          ),
-          backgroundColor: kNavBarColor,
+    _manga = widget.mangaUrl;
+
+    var chapterUrl = widget.chapterUrl;
+    if (!_chapters.contains(chapterUrl)) {
+      _nextChapter = chapterUrl;
+    }
+
+    return CustomScrollView(
+      slivers: [
+        SliverAppBar(
+          floating: true,
+          pinned: false,
+          snap: false,
+          backgroundColor: kBackgroundColor,
+          elevation: 0,
         ),
-        body: imageUrls.isNotEmpty
-            ? CustomScrollView(
-          scrollDirection: _axis,
-          slivers: <Widget>[
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                      (BuildContext context, int index) {
-                    return Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height,
-                      child: Stack(
-                        children: <Widget>[
-                          Positioned.fill(
-                              child: PhotoView(
-                                onTapDown: (context, details, controllerValue) {
-                                  setState(() {
-                                    _showAppBar = !_showAppBar;
-                                  });
-                                },
-                                imageProvider: NetworkImage(
-                                    imageUrls[index],
-                                    headers: {"referer": widget.url}
-                                ),
-                                backgroundDecoration:
-                                BoxDecoration(color: Colors.black87),
-                              )),
-                          Positioned(
-                              right: -1,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  child: Text(
-                                    "${index + 1} / ${imageUrls.length}",
-                                    style: TextStyle(color: kAccentColor),
-                                  ),
-                                ),
-                              )),
-                        ],
-                      ),
-                    );
-                  }, childCount: imageUrls.length),
-            )
-          ],
-        )
-            : Center(
-          child: Container(),
-        ));
+        SliverFillRemaining(
+          child: _buildPages(this._images, padding: 0),
+        ),
+      ],
+    );
   }
+
+  Widget _buildPages(List<String> images, {double padding = 10}) {
+    return ListView.builder(
+      itemBuilder: (BuildContext _context, int i) {
+        if (i >= _images.length) {
+          if (_nextChapter != '' && !_isFetching) {
+            _fetchPages(_nextChapter);
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          return null;
+        }
+
+        return _buildPage(images[i], _manga, padding);
+      },
+    );
+  }
+
+  void _fetchPages(String url) async {
+    if (_chapters.contains(url) || url == null || url == '') {
+      return;
+    }
+
+    _isFetching = true;
+    var chpt = await _api.getChapterPages(url);
+
+    if (_manga != '') DB().saveRead(_api.name, _manga, url, chpt.title);
+
+    if (!mounted) return;
+    setState(() {
+      _chapters.add(url);
+      _prevChapter = chpt.prevChapterUrl;
+      _currChapter = url;
+      _nextChapter = chpt.nextChapterUrl;
+      _isFetching = false;
+
+      if (_currChapter == chpt.nextChapterUrl) {
+        // append at the back
+      } else {
+        _images.addAll(chpt.pages);
+      }
+    });
+  }
+}
+
+class Reader extends StatefulWidget {
+  Reader({this.mangaUrl, this.chapterUrl, this.chapterName});
+  final String mangaUrl, chapterUrl, chapterName;
+
+  @override
+  ReaderState createState() => ReaderState();
+}
+
+class MangaPageState extends State<MangaPage> {
+  int reloadCount = 0;
+  int oldReloadCount = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    var reload = GestureDetector(
+        child: SizedBox(
+            child: Icon(
+              Icons.refresh,
+              color: Colors.white,
+            ),
+            width: 50),
+        onTap: () {
+          setState(() {
+            reloadCount += 1;
+          });
+        });
+
+    var cacheKey = reloadCount.toString() + widget.pageUrl;
+
+    Widget child;
+
+    if (reloadCount == oldReloadCount) {
+      child = CachedNetworkImage(
+          httpHeaders: {'referrer': widget.mangaUrl},
+          imageUrl: widget.pageUrl,
+          placeholder: (context, url) =>
+              Center(child: CircularProgressIndicator()),
+          errorWidget: (context, url, error) => reload);
+    } else {
+      child = Center(
+        child: CircularProgressIndicator(),
+      );
+      _reloadImage(widget.pageUrl, cacheKey);
+    }
+
+    return child;
+  }
+
+  void _reloadImage(String url, String cacheKey) async {
+    await CachedNetworkImage.evictFromCache(url);
+    setState(() {
+      oldReloadCount = reloadCount;
+    });
+  }
+}
+
+class MangaPage extends StatefulWidget {
+  final String pageUrl;
+  final String mangaUrl;
+
+  MangaPage({@required this.pageUrl, this.mangaUrl});
+
+  @override
+  MangaPageState createState() => MangaPageState();
+}
+
+Widget _buildPage(String pageUrl, String mangaUrl, double btm) {
+  return Container(
+      padding: EdgeInsets.only(bottom: btm),
+      child: MangaPage(pageUrl: pageUrl, mangaUrl: mangaUrl));
 }

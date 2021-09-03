@@ -1,7 +1,10 @@
-import 'package:otaku_fix/classes/popular.dart';
+class Chapter {
+  String url;
+  String text;
+  bool isRead = false;
+  String lastRead;
 
-class Chapter extends Popular {
-  Chapter({this.url, this.name}) : super(url: url, name: name);
-  final String url;
-  final String name;
+  Chapter(this.url, this.text);
+
+  Chapter.withLastRead(this.url, this.text, this.lastRead);
 }
